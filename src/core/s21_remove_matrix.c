@@ -6,6 +6,6 @@ void s21_remove_matrix(matrix_t *A) {
       free(A->matrix[i]);
     }
     free(A->matrix);
-    A->matrix = NULL;
+    A->matrix = S21_NULL;
   }
 }

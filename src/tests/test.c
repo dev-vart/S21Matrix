@@ -9,9 +9,9 @@ int main() {
   printf("--- created ---\n");
   s21_print_matrix(&matrix);
   printf("\n");
-  // s21_print_matrix(&matrixR);
+  s21_print_matrix(&matrixR);
   // printf("\n");
-  // s21_remove_matrix(&matrix);
+  s21_remove_matrix(&matrix);
 
   s21_print_matrix(&matrix);  // работает так как при remove matrix указатель на
                               // matrix обнуляется
@@ -31,7 +31,9 @@ int main() {
 
   printf("--- filling 17 ---\n");
   s21_remove_matrix(&matrix);
+  printf("a");
   s21_print_matrix(&matrix);
+  printf("b");
   s21_fill_matrix(&matrixR, 17, &matrix);
   printf("\n");
   s21_print_matrix(&matrix);
