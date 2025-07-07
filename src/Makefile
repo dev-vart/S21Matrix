@@ -1,5 +1,5 @@
 CC = gcc
-CCFLAGS = -c -Wall -Werror -Wextra -std=c11
+CCFLAGS = -c -Wall -Werror -Wextra -std=c11 -Wno-unused-parameter # НЕ ЗАБЫТЬ УБРАТЬ!
 CFLAGS=$(shell pkg-config --cflags check)
 LIBS = $(shell pkg-config --libs check)
 SOURCE = $(wildcard core/s21_*.c)

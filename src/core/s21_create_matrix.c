@@ -12,13 +12,12 @@ int s21_create_matrix(int rows, int columns, matrix_t *result) {
   result->matrix = (double **)malloc(rows * sizeof(double *));
   if (result->matrix == S21_NULL) {
     exit_code = INVALID_MATRIX;
-  } else {
-    for (int i = 0; i < rows && exit_code == OK; ++i) {
-      result->matrix[i] = (double *)calloc(columns, sizeof(double));
-      if (result->matrix[i] == S21_NULL) {
-        s21_free_rows(result, i);
-        exit_code = INVALID_MATRIX;
-      }
+  }
+  for (int i = 0; i < rows && exit_code == OK; ++i) {
+    result->matrix[i] = (double *)calloc(columns, sizeof(double));
+    if (result->matrix[i] == S21_NULL) {
+      s21_free_rows(result, i);
+      exit_code = INVALID_MATRIX;
     }
   }
   return exit_code;

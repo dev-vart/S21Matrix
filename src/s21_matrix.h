@@ -35,5 +35,6 @@ int s21_inverse_matrix(matrix_t *A, matrix_t *result);              // ❌
 // additional support funcs
 int s21_fill_matrix(matrix_t *A, double num, matrix_t *result);  // ✅
 int s21_print_matrix(matrix_t *A);                               // ✅
+int s21_input_matrix(matrix_t *A, matrix_t *result);             // ❌
 
 #endif
