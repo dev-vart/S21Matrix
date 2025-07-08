@@ -4,7 +4,7 @@
 
 int s21_input_matrix(matrix_t *A, matrix_t *result) {
   int exit_code = OK;
-  if (!A || !A->matrix || A->rows < 1 || A->columns < 1 || !result) {
+  if (!s21_is_valid_matrix(A) || !result) {
     return INVALID_MATRIX;
   }
   if (A != result) {

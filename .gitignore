@@ -54,3 +54,4 @@ dkms.conf
 # My files
 src/.clang-format
 src/test
+materials/*.jpg

@@ -8,8 +8,7 @@
 
 int s21_eq_matrix(matrix_t *A, matrix_t *B) {
   int exit_code = SUCCESS;
-  if (!A || !A->matrix || A->rows < 1 || A->columns < 1 || !B || !B->matrix ||
-      B->rows < 1 || B->columns < 1) {
+  if (!s21_is_valid_matrix(A) || !s21_is_valid_matrix(B)) {
     return FAILURE;
   }
   if (A->rows != B->rows || A->columns != B->columns) {

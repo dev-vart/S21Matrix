@@ -2,7 +2,7 @@
 
 int s21_print_matrix(matrix_t *A) {
   int exit_code = OK;
-  if (!A || !A->matrix || A->rows < 1 || A->columns < 1) {
+  if (!s21_is_valid_matrix(A)) {
     return INVALID_MATRIX;
   }
   for (int i = 0; i < A->rows; ++i) {
