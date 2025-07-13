@@ -33,16 +33,29 @@ int s21_mult_matrix(matrix_t *A, matrix_t *B, matrix_t *result) {
 // A != B == res - INVALID_MATRIX - A*B -> B; 0 1 1
 // A == res != B - INVALID_MATRIX - A*B -> A; 0 1 0
 
-int main() {
-  matrix_t m;
-  printf("working... \n");
-  s21_create_matrix(2, 3, &m);
-  s21_input_matrix(&m, &m);
-  printf("second... \n");
-  s21_input_matrix(&m, &m);
-  s21_print_matrix(&m);
-  s21_mult_number(&m, 1.5, &m);
-  s21_print_matrix(&m);
-  s21_remove_matrix(&m);
-  return 0;
-}
+// int main() {
+//   matrix_t m = {0}, m2 = {0}, mr = {0};
+//   printf("working... \n");
+
+//   s21_create_matrix(3, 2, &m);
+//   s21_create_matrix(2, 3, &m2);
+//   // s21_create_matrix(3, 3, &mr); ТАК НЕЛЬЗЯ ПИСАТЬ! В ФУНКЦИЮ ПОДАЕТСЯ
+//   ПУСТОЙ УКАЗАТЕЛЬ
+
+//   s21_input_matrix(&m, &m);
+//   s21_print_matrix(&m);
+//   s21_input_matrix(&m2, &m2);
+//   s21_print_matrix(&m2);
+//   s21_print_matrix(&mr);
+
+//   printf("second... \n");
+//   printf("error code: %d\n", s21_mult_matrix(&m, &m2, &mr));
+//   s21_print_matrix(&m);
+//   s21_print_matrix(&m2);
+//   s21_print_matrix(&mr);
+
+//   s21_remove_matrix(&m);
+//   s21_remove_matrix(&m2);
+//   s21_remove_matrix(&mr);
+//   return 0;
+// }
