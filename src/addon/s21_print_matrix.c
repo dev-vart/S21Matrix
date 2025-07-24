@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "../s21_matrix.h"
 
 int s21_print_matrix(matrix_t *A) {
