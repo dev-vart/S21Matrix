@@ -2,10 +2,6 @@
 
 #include "../s21_matrix.h"
 
-#define SUCCESS 1
-#define FAILURE 0
-#define EPSILON 1e-7
-
 int s21_eq_matrix(matrix_t *A, matrix_t *B) {
   int exit_code = SUCCESS;
   if (!s21_is_valid_matrix(A) || !s21_is_valid_matrix(B)) {

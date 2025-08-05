@@ -1,42 +1,49 @@
 CC = gcc
-CCFLAGS = -c -Wall -Werror -Wextra -std=c11 -g -Wno-unused-parameter # НЕ ЗАБЫТЬ УБРАТЬ!
-CFLAGS = -Wall -Werror -Wextra -std=c11 -g -Wno-unused-parameter # НЕ ЗАБЫТЬ УБРАТЬ!
+CFLAGS = -Wall -Werror -Wextra -std=c11 -Wno-unused-parameter # НЕ ЗАБЫТЬ УБРАТЬ!
+SANIFLAGS = -g -O0 -fsanitize=leak -fsanitize=address -fsanitize=undefined -fsanitize=unreachable
+VALFLAGS = --tool=memcheck --leak-check=yes --track-origins=yes
 # CFLAGS=$(shell pkg-config --cflags check)
 LIBS = $(shell pkg-config --libs check)
-SOURCE = $(wildcard core/s21_*.c) $(wildcard addon/s21_*.c)
+SRCFILES = $(wildcard core/s21_*.c) $(wildcard addon/s21_*.c)
+OBJFILES = $(wildcard s21_*.o)
 
 all: s21_matrix.a
 
-s21_matrix.a: $(SOURCE)
-	$(CC) $(CCFLAGS) $(SOURCE) 
-	ar rc s21_matrix.a s21_*.o 
-	ranlib s21_matrix.a
+s21_matrix.a: $(SRCFILES)
+	$(CC) -c $(CFLAGS) $(SRCFILES)
+	ar rc $@ $(OBJFILES)
+	ranlib $@
+
+# target for vscode task - do not use manually
+debug:
+	$(CC) -g $(CFLAGS) $(SRCFILES) -o debug
 
 sani:
-	$(CC) addon/*.c core/*.c -O0 -g -fsanitize=leak -fsanitize=address -fsanitize=undefined -fsanitize=unreachable && ./a.out
+	$(CC) $(SRCFILES) $(SANIFLAGS) -o $@ && ./$@
 
 val:
-	$(CC) addon/*.c core/*.c -g
-	valgrind --tool=memcheck --leak-check=yes --track-origins=yes ./a.out
+	$(CC) -g $(CFLAGS) $(SRCFILES) -o $@
+	valgrind $(VALFLAGS) ./$@
 
-testc:
-	$(CC) $(CFLAGS) $(SOURCE) -o test
-	./test
+minitest:
+	$(CC) $(CFLAGS) $(SRCFILES) -o $@
+	./$@
 
-test: clean tests/city.o s21_matrix.check
-	$(CC) -o test tests/city.o s21_matrix.a $(LIBS)
-	./test
-
-s21_matrix.check: $(SOURCE)
-	$(CC) $(CCFLAGS) $(CFLAGS) $(SOURCE) 
-	ar rc s21_matrix.a s21_*.o 
-	ranlib s21_matrix.a
+test: clean tests/city.o s21_matrix.a
+	$(CC) tests/city.o s21_matrix.a $(LIBS) -o $@
+	./$@
 
 tests/city.o: tests/city.c
-	$(CC) $(CFLAGS) -c tests/city.c -o tests/city.o
+	$(CC) $(CFLAGS) -c tests/city.c -o $@
 
 tests/city.c:
 	checkmk clean_mode=1 tests/city.check > tests/city.c
+
+clangn:
+	clang-format -n $(SRCFILES) *.h
+
+clangi:
+	clang-format -i $(SRCFILES) *.h
 
 rebuild: clean all 
 
@@ -50,5 +57,12 @@ clean:
 	-rm -rf tests/*.o tests/city.c
 	-rm -rf gcov*
 	-rm -rf a.out
+	-rm -rf val
+	-rm -rf debug
+	-rm -rf gdb
+	-rm -rf minitest
+	-rm -rf sani
 
-.PHONY: s21_matrix.a test test_c
+clear: clean
+
+.PHONY: s21_matrix.a test debug val sani minitest

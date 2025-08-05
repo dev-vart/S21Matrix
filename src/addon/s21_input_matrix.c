@@ -17,7 +17,8 @@ int s21_input_matrix(matrix_t *A, matrix_t *result) {
     for (int j = 0; j < A->columns; ++j) {
       check = scanf("%le%c", &num, &c);
       while (check != 2 || (c != '\n' && c != ' ')) {
-        while (getchar() != '\n' && !feof(stdin));
+        while (getchar() != '\n' && !feof(stdin))
+          ;
         printf("Wrong input. Try again.\n");
         check = scanf("%le%c", &num, &c);
       }
@@ -26,12 +27,3 @@ int s21_input_matrix(matrix_t *A, matrix_t *result) {
   }
   return exit_code;
 }
-
-// int main() {
-//   matrix_t m;
-//   printf("working... \n");
-//   s21_create_matrix(2, 3, &m);
-//   s21_input_matrix(&m, &m);
-//   s21_print_matrix(&m);
-//   return 0;
-// }

@@ -22,33 +22,3 @@ int s21_minor_matrix(matrix_t *A, int row, int column, matrix_t *result) {
   }
   return exit_code;
 }
-
-// int main() {
-//   matrix_t m = {0}, m2 = {0}, mr = {0};
-//   printf("working... \n");
-
-//   s21_create_matrix(4, 4, &m);
-//   // s21_create_matrix(2, 3, &m2);
-//   // s21_create_matrix(3, 3, &mr); ТАК НЕЛЬЗЯ ПИСАТЬ!
-//   // В ФУНКЦИЮ ПОДАЕТСЯ ПУСТОЙ УКАЗАТЕЛЬ
-
-//   s21_input_matrix(&m, &m);
-//   s21_print_matrix(&m);
-//   // s21_input_matrix(&m2, &m2);
-//   // s21_print_matrix(&m2);
-//   // s21_print_matrix(&mr);
-
-//   printf("second... \n");
-//   printf("error code: %d\n", s21_minor(&m, 4, 2, &mr));
-//   s21_print_matrix(&m);
-//   printf("\n");
-//   // s21_print_matrix(&m2);
-//   s21_print_matrix(&mr);
-
-//   s21_remove_matrix(&m);
-//   // s21_remove_matrix(&m2);
-//   s21_remove_matrix(&mr);
-//   return 0;
-// }
-
-// 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16

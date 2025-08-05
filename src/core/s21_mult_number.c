@@ -15,17 +15,3 @@ int s21_mult_number(matrix_t *A, double number, matrix_t *result) {
   }
   return exit_code;
 }
-
-// int main() {
-//   matrix_t m;
-//   printf("working... \n");
-//   s21_create_matrix(2, 3, &m);
-//   s21_input_matrix(&m, &m);
-//   printf("second... \n");
-//   s21_input_matrix(&m, &m);
-//   s21_print_matrix(&m);
-//   s21_mult_number(&m, 1.5, &m);
-//   s21_print_matrix(&m);
-//   s21_remove_matrix(&m);
-//   return 0;
-// }
