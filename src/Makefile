@@ -1,18 +1,23 @@
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -std=c11 -Wno-unused-parameter # НЕ ЗАБЫТЬ УБРАТЬ!
+CFLAGS = -Wall -Werror -Wextra -std=c11 -Wno-unused-parameter -Wno-unused-variable # НЕ ЗАБЫТЬ УБРАТЬ!
 SANIFLAGS = -g -O0 -fsanitize=leak -fsanitize=address -fsanitize=undefined -fsanitize=unreachable
 VALFLAGS = --tool=memcheck --leak-check=yes --track-origins=yes
 # CFLAGS=$(shell pkg-config --cflags check)
 LIBS = $(shell pkg-config --libs check)
 SRCFILES = $(wildcard core/s21_*.c) $(wildcard addon/s21_*.c)
-OBJFILES = $(wildcard s21_*.o)
+OBJFILES = $(notdir $(SRCFILES:.c=.o))
 
 all: s21_matrix.a
 
-s21_matrix.a: $(SRCFILES)
-	$(CC) -c $(CFLAGS) $(SRCFILES)
+s21_matrix.a: $(OBJFILES)
 	ar rc $@ $(OBJFILES)
 	ranlib $@
+
+%.o: core/%.c
+	$(CC) -c $(CFLAGS) $<
+
+%.o: addon/%.c
+	$(CC) -c $(CFLAGS) $<
 
 # target for vscode task - do not use manually
 debug:
@@ -48,7 +53,7 @@ clangi:
 rebuild: clean all 
 
 clean:
-	-rm -rf *.o && rm -rf *.gcno
+	-rm -rf *.o && rm -rf */*.o && rm -rf *.gcno
 	-rm -rf *.a && rm -rf *.gcda
 	-rm -rf *.info && rm -rf *.gcov
 	-rm -rf ./test && rm -rf ./gcov_report
