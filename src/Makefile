@@ -1,11 +1,12 @@
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -std=c11 -Wno-unused-parameter -Wno-unused-variable # НЕ ЗАБЫТЬ УБРАТЬ!
+CFLAGS = -Wall -Werror -Wextra -std=c11 # -Wno-unused-parameter -Wno-unused-variable # НЕ ЗАБЫТЬ УБРАТЬ!
 SANIFLAGS = -g -O0 -fsanitize=leak -fsanitize=address -fsanitize=undefined -fsanitize=unreachable
 VALFLAGS = --tool=memcheck --leak-check=yes --track-origins=yes
-# CFLAGS=$(shell pkg-config --cflags check)
 LIBS = $(shell pkg-config --libs check)
+# LIBS = -lcheck_pic -pthread -lrt -lm -lsubunit
 SRCFILES = $(wildcard core/s21_*.c) $(wildcard addon/s21_*.c)
 OBJFILES = $(notdir $(SRCFILES:.c=.o))
+TESTFILES = $(wildcard tests/*.c)
 
 all: s21_matrix.a
 
@@ -24,10 +25,10 @@ debug:
 	$(CC) -g $(CFLAGS) $(SRCFILES) -o debug
 
 sani:
-	$(CC) $(SRCFILES) $(SANIFLAGS) -o $@ && ./$@
+	$(CC) $(SANIFLAGS) $(SRCFILES) $(TESTFILES) $(LIBS) -o $@ && ./$@
 
 val:
-	$(CC) -g $(CFLAGS) $(SRCFILES) -o $@
+	$(CC) -g $(CFLAGS) $(SRCFILES) $(TESTFILES) $(LIBS) -o $@
 	valgrind $(VALFLAGS) ./$@
 
 minitest:
