@@ -39,17 +39,29 @@ test: clean tests/city.o s21_matrix.a
 	$(CC) tests/city.o s21_matrix.a $(LIBS) -o $@
 	./$@
 
+tests: test
+
 tests/city.o: tests/city.c
 	$(CC) $(CFLAGS) -c tests/city.c -o $@
 
 tests/city.c:
 	checkmk clean_mode=1 tests/city.check > tests/city.c
 
+gcov_report: tests/city.c $(SRCFILES)
+	mkdir -p gcov_report
+	$(CC) $(CFLAGS) --coverage $(SRCFILES) tests/city.c -o gcov_report/s21_test $(LIBS)
+	cd gcov_report
+	./gcov_report/s21_test
+	gcov -l -p -c *.gcno
+	-rm -rf s21_test-asd*
+	gcovr -e "tests/*" --html --html-details -o gcov_report/gcov_report.html
+	open gcov_report/gcov_report.html 
+
 clangn:
-	clang-format -n $(SRCFILES) *.h
+	clang-format-18 -n $(SRCFILES) *.h
 
 clangi:
-	clang-format -i $(SRCFILES) *.h
+	clang-format-18 -i $(SRCFILES) *.h
 
 rebuild: clean all 
 
