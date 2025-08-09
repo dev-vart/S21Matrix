@@ -92,10 +92,14 @@ gcov_report: tests/city_create1.c tests/city_create2.c tests/city.c $(SRCFILES)
 	open gcov_report/gcov_report.html 
 
 clangn:
+	cp ../materials/linters/.clang-format .clang-format
 	clang-format-18 -n $(SRCFILES) *.h */*.h
+	rm -rf .clang-format
 
 clangi:
+	cp ../materials/linters/.clang-format .clang-format
 	clang-format-18 -i $(SRCFILES) *.h */*.h
+	rm -rf .clang-format
 
 rebuild: clean all 
 
