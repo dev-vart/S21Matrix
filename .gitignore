@@ -53,5 +53,6 @@ dkms.conf
 
 # My files
 src/.clang-format
-src/test
+src/tests/test
+src/tests/test_*
 materials/*.jpg

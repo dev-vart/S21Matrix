@@ -1,4 +1,5 @@
 #include "../s21_matrix.h"
+#include "../tests/fake_alloc.h"
 
 void s21_free_rows(matrix_t *A, int rows);
 

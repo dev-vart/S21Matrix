@@ -1,0 +1,10 @@
+#include "../s21_matrix.h"
+
+#suite s21_matrix
+
+#tcase Interface
+
+#test test_create_matrix_invalid_4
+    matrix_t A = {0};
+    int code = s21_create_matrix(1, 1, &A);
+    ck_assert_int_eq(code, 1);
