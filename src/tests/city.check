@@ -28,7 +28,7 @@
     ck_assert_int_eq(code, 1);
 
 #test test_create_matrix_invalid_2
-    int code = s21_create_matrix(2, 2, NULL);
+    int code = s21_create_matrix(2, 2, S21_NULL);
     ck_assert_int_eq(code, 1);
 
 #test test_create_matrix_invalid_3
@@ -127,6 +127,11 @@
     ck_assert_int_eq(s21_eq_matrix(&A, &B), 0); 
     s21_remove_matrix(&A);
     s21_remove_matrix(&B);
+
+#test test_eq_matrix_invalid1
+    matrix_t A = {0}, B = {0};
+    ck_assert_int_eq(s21_eq_matrix(&A, &B), 0); 
+
 
 // s21_sum_matrix
 
@@ -463,6 +468,15 @@
 
     s21_remove_matrix(&A);
 
+#test test_mult_matrix_error_5
+    matrix_t A = {0}, B = {0};
+    s21_create_matrix(2, 2, &A);
+    s21_create_matrix(2, 1, &B);
+
+    ck_assert_int_eq(s21_mult_matrix(&B, &A, &B), 1);
+
+    s21_remove_matrix(&A);
+    s21_remove_matrix(&B);
 
 // s21_transpose_matrix
 
@@ -1007,7 +1021,7 @@
     s21_remove_matrix(&original);
 
 #test test_calc_complements_6
-    matrix_t A, res;
+    matrix_t A = {0}, res = {0};
 
     s21_create_matrix(2, 3, &A);
     A.matrix[0][0] = 1;
@@ -1078,7 +1092,7 @@
     s21_remove_matrix(&A);
 
 #test test_inverse_matrix_3
-    matrix_t A, res;
+    matrix_t A = {0}, res = {0};
 
     s21_create_matrix(2, 3, &A);
     A.matrix[0][0] = 1;
@@ -1114,7 +1128,7 @@
     s21_remove_matrix(&original);
 
 #test test_inverse_fractions
-    matrix_t A, res;
+    matrix_t A = {0}, res = {0};
 
     s21_create_matrix(2, 2, &A);
     A.matrix[0][0] = 0.5; 
@@ -1135,7 +1149,7 @@
     s21_remove_matrix(&res);
 
 #test test_inverse_singular
-    matrix_t A, res;
+    matrix_t A = {0}, res = {0};
 
     s21_create_matrix(2, 2, &A);
     A.matrix[0][0] = 1; 
@@ -1148,7 +1162,7 @@
     s21_remove_matrix(&A);
 
 #test test_inverse_matrix_6
-    matrix_t A, res;
+    matrix_t A = {0}, res = {0};
 
     s21_create_matrix(1, 1, &A);
     A.matrix[0][0] = 0;
@@ -1158,7 +1172,7 @@
     s21_remove_matrix(&A);
 
 #test test_inverse_matrix_7
-    matrix_t A, res;
+    matrix_t A = {0}, res = {0};
 
     s21_create_matrix(3, 3, &A);
     A.matrix[0][0] = 1;
@@ -1174,3 +1188,56 @@
     ck_assert_int_eq(s21_inverse_matrix(&A, &res), 2);
 
     s21_remove_matrix(&A);
+
+// addon funcs
+
+#test test_minor_matrix_invalid_1
+    matrix_t A = {0}, res = {0};
+    int code = s21_minor_matrix(&A, 1, 1, &res);
+    ck_assert_int_eq(code, 1);
+
+#test test_print_matrix_1
+    matrix_t A = {0};
+
+    s21_create_matrix(2, 2, &A);
+    A.matrix[0][0] = 1;
+    A.matrix[0][1] = 2;
+    A.matrix[1][0] = 3;
+    A.matrix[1][1] = 4;
+
+    int code = s21_print_matrix(&A);
+    ck_assert_int_eq(code, 0);
+
+#test test_print_matrix_invalid_1
+    matrix_t A = {0};
+    int code = s21_print_matrix(&A);
+    ck_assert_int_eq(code, 1);
+
+#test test_fill_matrix_1
+    matrix_t A = {0}, res = {0};
+
+    s21_create_matrix(2, 2, &A);
+
+    int code = s21_fill_matrix(&A, 3, &res);
+    ck_assert_int_eq(code, 0);
+
+#test test_fill_matrix_invalid_1
+    matrix_t A = {0}, res = {0};
+    int code = s21_fill_matrix(&A, 3, &res);
+    ck_assert_int_eq(code, 1);
+
+#test test_input_matrix_1
+    matrix_t A = {0}, res = {0};
+
+    s21_create_matrix(2, 2, &A);
+
+    if (!freopen("tests/input_test.txt", "r", stdin)) {
+    ck_abort_msg("Failed to redirect stdin to input_test.txt");
+    }
+    int code = s21_input_matrix(&A, &res);
+    ck_assert_int_eq(code, 0);
+
+#test test_input_matrix_invalid_1
+    matrix_t A = {0}, res = {0};
+    int code = s21_input_matrix(&A, &res);
+    ck_assert_int_eq(code, 1);
